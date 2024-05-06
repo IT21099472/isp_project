@@ -9,17 +9,17 @@ const guestRoutes = [
   {
     icon: Layout,
     label: "Dashboard",
-    href: "/",
+    href: "/admin/dashboard",
   },
   {
     icon: User,
     label: "Candidate List",
-    href: "/",
+    href: "/admin/candidate",
   },
   {
     icon: Vote,
     label: "Voter List",
-    href: "/",
+    href: "/admin/voter",
   },
 ];
 
