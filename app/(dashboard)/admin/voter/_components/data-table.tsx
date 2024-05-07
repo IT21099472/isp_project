@@ -55,14 +55,15 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4 justify-between">
+      {/* <div className="flex items-center py-4 justify-between">
         <Link href="/teacher/create">
           <Button>
             <PlusCircle className="h-4 w-4 mr-2" />
             Add Voter
           </Button>
         </Link>
-      </div>
+      </div> */}
+      
       <div className="rounded-md border">
         <Table>
           <TableHeader>

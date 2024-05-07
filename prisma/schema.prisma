@@ -7,14 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id      Int     @id @default(autoincrement())
-  title   String
-  content String?
+model Event {
+  event_id      Int       @id @default(autoincrement())
+  event_name    String
+  event_status  Boolean   @default(false)
+  candidates    Candidate[]
+  votings       Voting[]
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Candidate {
+  candidate_id         Int          @id @default(autoincrement())
+  candidate_name       String
+  candidate_department String
+  candidate_photo      String
+  candidatus_status    Boolean      @default(false)
+  event                Event        @relation(fields: [event_id], references: [event_id])
+  event_id             Int
+  votings              Voting[]
+}
+
+model Voting {
+  voting_id     Int       @id @default(autoincrement())
+  voter_id      Int
+  voting_time   DateTime
+  voting_date   DateTime
+  event         Event     @relation(fields: [event_id], references: [event_id])
+  event_id      Int
+  candidate     Candidate @relation(fields: [candidate_id], references: [candidate_id])
+  candidate_id  Int
+}
+
+model Voter {
+  voter_id      Int       @id @default(autoincrement())
+  externalId    String    @unique
+  first_name    String
+  last_name     String
+  email_address String
+  voting_status Boolean   @default(false)
 }

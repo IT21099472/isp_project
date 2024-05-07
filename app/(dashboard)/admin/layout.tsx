@@ -1,9 +1,18 @@
+import { auth } from "@clerk/nextjs";
 import { Navbar } from "./_components/navbar";
 import { Sidebar } from "./_components/sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
+import { isAdmin } from "@/lib/admin";
+import { redirect } from "next/navigation";
+
 
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+  const {userId}=auth()
+
+  if (!isAdmin(userId)) {
+    return redirect("/");
+  }
   return (
     <div className="h-full">
     <div className="h-[80px] md:pl-56 fixed inset-y-0 w-full z-50">
