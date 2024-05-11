@@ -28,14 +28,16 @@ model Candidate {
 
 model Voting {
   voting_id     Int       @id @default(autoincrement())
-  voter_id      Int
-  voting_time   DateTime
-  voting_date   DateTime
+  voter         Voter     @relation(fields: [voter_id], references: [externalId])
+  voter_id      String
+  
+  voting_time   DateTime  @default(now()) // Set default value to the current date and time
   event         Event     @relation(fields: [event_id], references: [event_id])
   event_id      Int
   candidate     Candidate @relation(fields: [candidate_id], references: [candidate_id])
   candidate_id  Int
 }
+
 
 model Voter {
   voter_id      Int       @id @default(autoincrement())
@@ -44,4 +46,5 @@ model Voter {
   last_name     String
   email_address String
   voting_status Boolean   @default(false)
+  votings Voting[]
 }

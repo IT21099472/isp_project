@@ -16,14 +16,14 @@ const VoterPage = async () => {
   }
   try {
     const Voter = await prisma.voter.findMany();
-    console.log(Voter)
+
     return (
       <div className="p-6">
         <DataTable columns={columns} data={Voter} />
       </div>
     );
   } catch (error) {
-    console.error("Error fetching data:", error);
+   
     return <div>Error fetching data. Please try again later.</div>;
   }
   

@@ -12,6 +12,11 @@ const guestRoutes = [
     href: "/admin/dashboard",
   },
   {
+    icon: CalendarCheck,
+    label: "Events",
+    href: "/admin/event",
+  },
+  {
     icon: User,
     label: "Candidates",
     href: "/admin/candidate",
@@ -21,11 +26,7 @@ const guestRoutes = [
     label: "Voters",
     href: "/admin/voter",
   },
-  {
-    icon: CalendarCheck,
-    label: "Events",
-    href: "/admin/event",
-  },
+  
 ];
 
 
