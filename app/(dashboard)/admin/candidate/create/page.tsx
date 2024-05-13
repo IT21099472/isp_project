@@ -20,7 +20,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-
 const formSchema = z.object({
   candidate_name: z.string().min(1, {
     message: "Candidate's name is required",
@@ -28,6 +27,7 @@ const formSchema = z.object({
   candidate_department: z.string().min(1, {
     message: "Candidate's department is required",
   }),
+  eventID: z.coerce.number(),
 });
 
 const CreatePage = () => {
@@ -43,6 +43,7 @@ const CreatePage = () => {
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values)
     try {
       const response = await axios.post("/api/candidate", values);
       const candidateId = response.data.candidate_id;
@@ -53,8 +54,6 @@ const CreatePage = () => {
       toast.error("Failed to create candidate");
     }
   };
-  
-  
 
   return (
     <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
@@ -104,9 +103,28 @@ const CreatePage = () => {
                 </FormItem>
               )}
             />
-           
 
-            
+            <FormField
+              control={form.control}
+              name="eventID"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Enter the Event</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      step="1"
+                      disabled={isSubmitting}
+                      placeholder="e.g. 'Enter the Event ID'"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription></FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <div className="flex items-center gap-x-2">
               <Link href="../candidate">
                 <Button type="button" variant="ghost">

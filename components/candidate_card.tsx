@@ -57,11 +57,14 @@ export const CandidateCard = ({
     console.log(candidateId)
     candidate_status = !candidate_status
     const values = {
-      candidate_status
+      candidatus_status: candidate_status
     }
 
+    console.log(values)
+
     try {
-      await axios.patch(`/api/candidate/${candidateId}`, values);
+      const responce = await axios.patch(`/api/candidate/${candidateId}`, values);
+      console.log(responce)
       toast.success("Candidate updated");
       router.refresh();
     } catch {

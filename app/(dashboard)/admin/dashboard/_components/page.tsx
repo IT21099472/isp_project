@@ -1,24 +1,15 @@
-import { auth } from "@clerk/nextjs"
-
-import { redirect } from "next/navigation";
+import React from 'react'
+import{Switch} from "antd";
+import { InfoCard } from "../_components/info-card";
 import { CheckCircle, Clock } from "lucide-react";
-import { InfoCard } from "./_components/info-card";
+import { DataTable } from "./_components/data-table";
 
-
-
-
-
-export default async function Dashboard() {
-  const { userId } = auth();
-
-  if (!userId) {
-    return redirect("/");
-  }
-
-
-
+const EventPage = () => {
   return (
     <div className="p-6 space-y-4">
+      Dashboard
+
+      <div className="p-6 space-y-4">
       admin home
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
        <InfoCard
@@ -39,9 +30,13 @@ export default async function Dashboard() {
           variant="success"
        />
       </div>
-
+      <div className="p-6">
+        <DataTable columns={columns} data={Voter} />
+      </div>
       
     </div>
+    </div>
   );
-  
 }
+
+export default EventPage

@@ -78,6 +78,8 @@ export async function PATCH(
     const cID = parseInt(candidateId);
     const values = await req.json();
 
+    console.log(values)
+
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -87,9 +89,12 @@ export async function PATCH(
         candidate_id: cID,
       },
       data: {
-        candidatus_status: values.candidate_status, // Correct field name to event_name
-        candidate_department : values.candidate_department,
-        candidate_photo: values.candidate_photo,}
+        // candidatus_status: values.candidate_status, // Correct field name to event_name
+        // candidate_department : values.candidate_department,
+        // candidate_photo: values.candidate_photo,
+
+        ...values,
+      }
     });
 
     return new NextResponse(JSON.stringify(event), { status: 200 });

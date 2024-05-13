@@ -44,14 +44,23 @@ const CreatePage = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await axios.post("/api/event", values);
-      router.push(`/admin/event/${response.data.event_id}`);
-      router.refresh();
-    //   router.push(`/admin/event`);
-      toast.success("Event created");
+  
+      if (response.data.error) {
+        // If API response contains an error message, display it
+        toast.error(response.data.error);
+      } else {
+        // If successful, redirect to the event page
+        router.push(`/admin/event/${response.data.event_id}`);
+        router.refresh();
+        toast.success("Event created");
+      }
     } catch {
       toast.error("Something went wrong");
     }
-  }
+  };
+  
+  
+  
  
 
   return ( 

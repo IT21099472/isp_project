@@ -17,9 +17,8 @@ interface ImageFormProps {
   candidate_id: number;
 };
 
-
 const formSchema = z.object({
-  imageUrl: z.string().min(1, {
+  candidate_photo: z.string().min(1, {
     message: "Image is required",
   }),
 });
@@ -35,6 +34,7 @@ export const ImageForm = ({
   const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values)
     try {
       await axios.patch(`/api/candidate/${candidate_id}`, values);
       toast.success("Candidate updated");
@@ -89,7 +89,7 @@ export const ImageForm = ({
             endpoint="imageUploader"
             onChange={(url) => {
               if (url) {
-                onSubmit({ imageUrl: url });
+                onSubmit({ candidate_photo: url });
               }
             }}
           />

@@ -1,0 +1,33 @@
+import React from 'react'
+import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+import { InfoCard } from "../_components/info-card";
+import { prisma } from "@/lib/db";
+import { CheckCircle, Clock } from "lucide-react";
+import { DataTable } from "./_components/data-table";
+import { columns } from "./_components/columns";
+import { title } from 'process';
+
+const VoterPage = async () => {
+  const { userId } = auth();
+
+  if (!userId) {
+    return redirect("/");
+  }
+  try {
+    const Voter = await prisma.voter.findMany();
+
+    return (
+      <div className="p-6">
+        <DataTable columns={columns} data={Voter} />
+      </div>
+    );
+  } catch (error) {
+   
+    return <div>Error fetching data. Please try again later.</div>;
+  }
+  
+}
+
+export default VoterPage
+

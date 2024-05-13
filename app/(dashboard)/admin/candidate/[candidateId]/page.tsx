@@ -1,19 +1,23 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import { CircleDollarSign, File, LayoutDashboard, ListChecks } from "lucide-react";
+import {
+  CircleDollarSign,
+  File,
+  LayoutDashboard,
+  ListChecks,
+} from "lucide-react";
 
 import { prisma } from "@/lib/db";
 import { IconBadge } from "@/components/icon-badge";
 import { Banner } from "@/components/banner";
 
-
 import { ImageForm } from "./_components/image";
-import { CategoryForm } from "./_components/event_Id";
+import { CategoryForm } from "./_components/category-form";
 
 const candidateIdPage = async ({
-  params
+  params,
 }: {
-  params: { candidateId: number }
+  params: { candidateId: number };
 }) => {
   const { userId } = auth();
 
@@ -27,16 +31,17 @@ const candidateIdPage = async ({
     },
   });
 
+  const events = await prisma.event.findMany({
+    orderBy: {
+      event_name: "asc",
+    },
+  });
+
   if (!candidate) {
     return redirect("/");
   }
 
-  const requiredFields = [
-
-    candidate.candidate_photo,
-
-
-  ];
+  const requiredFields = [candidate.candidate_photo];
 
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
@@ -48,40 +53,47 @@ const candidateIdPage = async ({
   return (
     <>
       {!candidate.candidatus_status && (
-        <Banner
-          label="This candidate is inactive. It will not be visible to the voters."
-        />
+        <Banner label="This candidate is inactive. It will not be visible to the voters." />
       )}
       <div className="p-6">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-y-2">
-            <h1 className="text-2xl font-medium">
-              Candidate's Details
-            </h1>
+            <h1 className="text-2xl font-medium">Candidate's Details</h1>
             <span className="text-sm text-slate-700">
               Complete all fields {completionText}
             </span>
           </div>
-         
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
           <div>
             <div className="flex items-center gap-x-2">
               <IconBadge icon={LayoutDashboard} />
-              <h2 className="text-xl">
-                Customize your candidate
-              </h2>
+              <h2 className="text-xl">Customize your candidate</h2>
             </div>
             <ImageForm
               initialData={candidate}
               candidate_id={candidate.candidate_id}
             />
           </div>
-         
+
+          {/* <div>
+            <div className="flex items-center gap-x-2">
+              <IconBadge icon={LayoutDashboard} />
+              <h2 className="text-xl">Select the Event</h2>
+            </div>
+            <CategoryForm
+              initialData={candidate}
+              candidate_id={candidate.candidate_id}
+              options={events.map((event) => ({
+                label: event.event_name,
+                value: event.event_id,
+              }))}
+            />
+          </div> */}
         </div>
       </div>
     </>
-   );
-}
- 
+  );
+};
+
 export default candidateIdPage;
