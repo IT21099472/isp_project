@@ -26,8 +26,6 @@ const EventPage = async () => {
     console.error("Error fetching data:", error);
     return <div>Error fetching data. Please try again later.</div>;
   }
-  
 }
-
 export default EventPage
 
